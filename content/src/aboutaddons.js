@@ -7,7 +7,10 @@ const AddonBox = React.createClass({
     return {data: []};
   },
   componentDidMount: function() {
-    AddonManager.getAddonsByTypes(["extension"], a => this.setState({data: a}));
+    AddonManager.getAddonsByTypes(["extension"], arr => {
+      let userAddons = arr.filter(addon => !addon.isSystem);
+      this.setState({data: userAddons});
+    });
   },
   render: function() {
     return (
@@ -52,13 +55,16 @@ class Addon extends React.Component {
     super(props);
     this.handleStatusChange = this.handleStatusChange.bind(this);
     this.handleUninstall = this.handleUninstall.bind(this);
-    this.state = {items: [], text: ''};
   }
 
   render() {
+    let noIcon = "chrome://mozapps/skin/extensions/extensionGeneric.svg";
     return (
       <tr>
-        <td><img width="16" height="16" src={this.props.iconURL} /></td>
+        <td>
+          <img width="16" height="16"
+           src={this.props.iconURL ? this.props.iconURL : noIcon} />
+        </td>
         <td>{this.props.name}</td>
         <td>{this.props.version}</td>
         <td>
