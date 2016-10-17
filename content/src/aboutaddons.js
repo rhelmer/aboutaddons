@@ -118,7 +118,7 @@ Addon.propTypes = {
   name: pt.string.isRequired,
   version: pt.string.isRequired,
   userDisabled: pt.bool.isRequired,
-  //TODO iconURL: pt.string.isRequired,
+  iconURL: pt.string
 }
 
 ReactDOM.render(
