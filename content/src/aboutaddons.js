@@ -2,17 +2,25 @@
 
 Components.utils.import("resource://gre/modules/AddonManager.jsm");
 
-const AddonBox = React.createClass({
-  getInitialState: function() {
-    return {data: []};
-  },
-  componentDidMount: function() {
+const pt = React.PropTypes;
+
+class AddonBox extends React.Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      data: [],
+    }
+  }
+
+  componentDidMount() {
     AddonManager.getAddonsByTypes(["extension"], arr => {
       let userAddons = arr.filter(addon => !addon.isSystem);
       this.setState({data: userAddons});
     });
-  },
-  render: function() {
+  }
+
+  render() {
     return (
       <table className="AddonBox">
         <thead>
@@ -28,10 +36,10 @@ const AddonBox = React.createClass({
       </table>
     );
   }
-});
+}
 
-const AddonList = React.createClass({
-  render: function() {
+class AddonList extends React.Component {
+  render() {
     let addonNodes = this.props.data.map(function(addon) {
       return (
         <Addon key={addon.id}
@@ -48,7 +56,11 @@ const AddonList = React.createClass({
       </tbody>
     );
   }
-});
+}
+
+AddonList.propTypes = {
+  data: pt.array.isRequired,
+}
 
 class Addon extends React.Component {
   constructor(props) {
@@ -100,6 +112,13 @@ class Addon extends React.Component {
     // TODO need to notify UI when state changed - probably need to listen
     // for the notification from AddonManager...
   }
+}
+
+Addon.propTypes = {
+  name: pt.string.isRequired,
+  version: pt.string.isRequired,
+  userDisabled: pt.bool.isRequired,
+  //TODO iconURL: pt.string.isRequired,
 }
 
 ReactDOM.render(
