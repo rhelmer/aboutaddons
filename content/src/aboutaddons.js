@@ -11,7 +11,18 @@ const AddonBox = React.createClass({
   },
   render: function() {
     return (
+      <table className="AddonBox">
+        <thead>
+          <tr>
+            <td>Icon</td>
+            <td>Name</td>
+            <td>Version</td>
+            <td>State</td>
+            <td>Action</td>
+          </tr>
+        </thead>
         <AddonList data={this.state.data} />
+      </table>
     );
   }
 });
@@ -20,14 +31,16 @@ const AddonList = React.createClass({
   render: function() {
     let addonNodes = this.props.data.map(function(addon) {
       return (
-        <Addon name={addon.name} version={addon.version}
-         userDisabled={addon.userDisabled} />
+        <Addon name={addon.name}
+               version={addon.version}
+               iconURL={addon.iconURL}
+               userDisabled={addon.userDisabled} />
       );
     });
     return (
-      <div className="addonList">
+      <tbody className="addonList">
         {addonNodes}
-      </div>
+      </tbody>
     );
   }
 });
@@ -35,14 +48,19 @@ const AddonList = React.createClass({
 const Addon = React.createClass({
   render: function() {
     return (
-      <div className="addon">
-        {this.props.name},
-        {this.props.version},
-        <button id={this.props.userDisabled ? "enable" : "disable"}>
-          {this.props.userDisabled ? "enable" : "disable"}
-        </button>,
-        <button id="uninstall">uninstall</button>
-      </div>
+      <tr>
+        <td><img width="16" height="16" src={this.props.iconURL} /></td>
+        <td>{this.props.name}</td>
+        <td>{this.props.version}</td>
+        <td>
+          <button id={this.props.userDisabled ? "enable" : "disable"}>
+            {this.props.userDisabled ? "enable" : "disable"}
+          </button>
+        </td>
+        <td>
+          <button id="uninstall">uninstall</button>
+        </td>
+      </tr>
     );
   }
 });
