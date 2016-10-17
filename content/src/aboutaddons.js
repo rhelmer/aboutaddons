@@ -34,26 +34,16 @@ const AddonList = React.createClass({
 
 const Addon = React.createClass({
   render: function() {
-    // FIXME look for a more concise way to do this
-    if (this.props.userDisabled) {
-      return (
-        <div className="addon">
-          {this.props.name},
-          {this.props.version},
-          <button>enable</button>,
-          <button>uninstall</button>
-        </div>
-      );
-    } else {
-      return (
-        <div className="addon">
-          {this.props.name},
-          {this.props.version},
-          <button>disable</button>,
-          <button>uninstall</button>
-        </div>
-      );
-    }
+    return (
+      <div className="addon">
+        {this.props.name},
+        {this.props.version},
+        <button id={this.props.userDisabled ? "enable" : "disable"}>
+          {this.props.userDisabled ? "enable" : "disable"}
+        </button>,
+        <button id="uninstall">uninstall</button>
+      </div>
+    );
   }
 });
 
