@@ -35,7 +35,7 @@ let ExtensionManager = {
     let url = `${CHROME_URL}#extension`;
     iframe.setAttribute("src", url);
 
-    aWindow.addEventListener("click", event => {
+    aWindow.document.getElementById("categories").addEventListener("click", event => {
       let type = aWindow.document.getElementById("list-view").getAttribute("type");
       let url = `${CHROME_URL}#${type}`;
       if (iframe.src != url) {
