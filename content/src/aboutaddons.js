@@ -53,15 +53,6 @@ class AddonBox extends React.Component {
   render() {
     return (
       <table className="AddonBox">
-        <thead>
-          <tr>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-          </tr>
-        </thead>
         <AddonList data={this.state.data} />
       </table>
     );
