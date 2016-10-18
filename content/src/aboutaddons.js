@@ -14,10 +14,40 @@ class AddonBox extends React.Component {
   }
 
   componentDidMount() {
+    AddonManager.addAddonListener(this);
+
     AddonManager.getAddonsByTypes(["extension"], arr => {
       let userAddons = arr.filter(addon => !addon.isSystem);
       this.setState({data: userAddons});
     });
+  }
+
+  componentWillUnmount() {
+    AddonManager.removeAddonListener(this);
+  }
+
+  updateAddonsList(addonID) {
+    // TODO add support for only querying the modified ID
+    AddonManager.getAddonsByTypes(["extension"], arr => {
+      let userAddons = arr.filter(addon => !addon.isSystem);
+      this.setState({data: userAddons});
+    });
+  }
+
+  onInstalled(addon) {
+    this.updateAddonsList(addon.id);
+  }
+
+  onUninstalled(addon) {
+    this.updateAddonsList(addon.id);
+  }
+
+  onEnabled(addon) {
+    this.updateAddonsList(addon.id);
+  }
+
+  onDisabled(addon) {
+    this.updateAddonsList(addon.id);
   }
 
   render() {
@@ -25,11 +55,11 @@ class AddonBox extends React.Component {
       <table className="AddonBox">
         <thead>
           <tr>
-            <td>Icon</td>
-            <td>Name</td>
-            <td>Version</td>
-            <td>State</td>
-            <td>Action</td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
           </tr>
         </thead>
         <AddonList data={this.state.data} />
@@ -45,7 +75,7 @@ class AddonList extends React.Component {
         <Addon key={addon.id}
                id={addon.id}
                name={addon.name}
-               version={addon.version}
+               description={addon.description}
                iconURL={addon.iconURL}
                userDisabled={addon.userDisabled} />
       );
@@ -74,19 +104,19 @@ class Addon extends React.Component {
     return (
       <tr>
         <td>
-          <img width="16" height="16"
+          <img width="32" height="32"
            src={this.props.iconURL ? this.props.iconURL : noIcon} />
         </td>
         <td>{this.props.name}</td>
-        <td>{this.props.version}</td>
+        <td>{this.props.description}</td>
         <td>
           <button id={this.props.id} onClick={this.handleStatusChange}>
-            {this.props.userDisabled ? "enable" : "disable"}
+            {this.props.userDisabled ? "Enable" : "Disable"}
           </button>
         </td>
         <td>
           <button id={this.props.id} onClick={this.handleUninstall}>
-            uninstall
+            Remove
           </button>
         </td>
       </tr>
@@ -98,8 +128,6 @@ class Addon extends React.Component {
     AddonManager.getAddonByID(this.props.id, addon => {
       addon.userDisabled = !addon.userDisabled;
     });
-    // TODO need to notify UI when state changed - probably need to listen
-    // for the notification from AddonManager...
   }
 
   handleUninstall(e) {
@@ -109,14 +137,12 @@ class Addon extends React.Component {
         addon.uninstall();
       }
     });
-    // TODO need to notify UI when state changed - probably need to listen
-    // for the notification from AddonManager...
   }
 }
 
 Addon.propTypes = {
   name: pt.string.isRequired,
-  version: pt.string.isRequired,
+  description: pt.string.isRequired,
   userDisabled: pt.bool.isRequired,
   iconURL: pt.string
 }
