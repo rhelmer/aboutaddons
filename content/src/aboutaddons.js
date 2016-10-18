@@ -15,11 +15,7 @@ class AddonBox extends React.Component {
 
   componentDidMount() {
     AddonManager.addAddonListener(this);
-
-    AddonManager.getAddonsByTypes(["extension"], arr => {
-      let userAddons = arr.filter(addon => !addon.isSystem);
-      this.setState({data: userAddons});
-    });
+    this.updateAddonsList();
   }
 
   componentWillUnmount() {
@@ -28,8 +24,18 @@ class AddonBox extends React.Component {
 
   updateAddonsList(addonID) {
     // TODO add support for only querying the modified ID
+    //      not really worth it until we have a Map of {addonID -> addon}
     AddonManager.getAddonsByTypes(["extension"], arr => {
       let userAddons = arr.filter(addon => !addon.isSystem);
+      userAddons.sort((a,b) => {
+        if (a.name > b.name) {
+          return 1;
+        }
+        if (a.name < b.name) {
+          return -1;
+        }
+        return 0;
+      });
       this.setState({data: userAddons});
     });
   }
