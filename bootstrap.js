@@ -3,7 +3,33 @@
  * You can obtain one at http://mozilla.org/MPL/2.0/. */
 "use strict";
 
+Components.utils.import("resource://gre/modules/Services.jsm");
+
 function install() {}
 function uninstall() {}
-function startup(data) {}
-function shutdown(reason) {}
+function startup(data) {
+  Services.obs.addObserver(ExtensionManager, "EM-loaded", false);
+}
+function shutdown(reason) {
+  Services.obs.removeObserver(ExtensionManager, "EM-loaded", false);
+}
+
+let ExtensionManager = {
+  observe: function(aSubject, aTopic, aData) {
+    this.replaceContent(aSubject);
+  },
+
+  replaceContent: function(aWindow) {
+    let oldContent = aWindow.document.getElementById("headered-views-content");
+    oldContent.hidden = true;
+
+    let iframe = aWindow.document.createElement("iframe");
+    iframe.setAttribute("height", "100%");
+    iframe.setAttribute("flex", "1");
+
+    let headeredViews = aWindow.document.getElementById("headered-views");
+    headeredViews.appendChild(iframe);
+
+    iframe.setAttribute("src", "chrome://aboutaddons/content/index.html");
+  }
+}

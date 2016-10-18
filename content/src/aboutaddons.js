@@ -27,6 +27,7 @@ class AddonBox extends React.Component {
     //      not really worth it until we have a Map of {addonID -> addon}
     AddonManager.getAddonsByTypes(["extension"], arr => {
       let userAddons = arr.filter(addon => !addon.isSystem);
+      // again, would be nice to have a Map of {addonID -> addon}
       userAddons.sort((a,b) => {
         if (a.name > b.name) {
           return 1;
@@ -130,9 +131,7 @@ class Addon extends React.Component {
   handleUninstall(e) {
     let addonID = e.target.id;
     AddonManager.getAddonByID(this.props.id, addon => {
-      if (addon) {
-        addon.uninstall();
-      }
+      addon.uninstall();
     });
   }
 }
