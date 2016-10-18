@@ -5,6 +5,8 @@
 
 Components.utils.import("resource://gre/modules/Services.jsm");
 
+const CHROME_URL = "chrome://aboutaddons/content/index.html";
+
 function install() {}
 function uninstall() {}
 function startup(data) {
@@ -30,6 +32,16 @@ let ExtensionManager = {
     let headeredViews = aWindow.document.getElementById("headered-views");
     headeredViews.appendChild(iframe);
 
-    iframe.setAttribute("src", "chrome://aboutaddons/content/index.html");
+    let url = `${CHROME_URL}#extension`;
+    iframe.setAttribute("src", url);
+
+    aWindow.addEventListener("click", event => {
+      let type = aWindow.document.getElementById("list-view").getAttribute("type");
+      let url = `${CHROME_URL}#${type}`;
+      if (iframe.src != url) {
+        iframe.setAttribute("src", `${CHROME_URL}#${type}`);
+        iframe.contentWindow.location.reload();
+      }
+    });
   }
 }
