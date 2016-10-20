@@ -114,7 +114,7 @@ class Addon extends React.Component {
           </button>
         </td>
         <td>
-          <button id={this.props.id} onClick={this.handleUninstall}>
+          <button id={this.props.id} onClick={this.handleUninstall} >
             Remove
           </button>
         </td>
