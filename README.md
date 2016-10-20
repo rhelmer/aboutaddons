@@ -1,9 +1,11 @@
-Firefox Extensions Manager
---------------------------
+Firefox Add-ons Manager
+-----------------------
 
-A React web app that powers the sections in Firefox about:addons
+A React web app that powers the Add-ons Manager (about:addons) in Firefox.
 
 ![Image of about:addons](http://i.imgur.com/HIkGspf.png)
+
+The following sections are supported:
 
 - [x] Extensions
 - [x] Appearance
@@ -13,4 +15,20 @@ A React web app that powers the sections in Firefox about:addons
 Installing
 ----------
 
-This is available as an extension for ease of testing.
+Now available as a Firefox extension:
+https://addons.mozilla.org/en-US/firefox/addon/about-addons/
+
+Hacking
+-------
+
+Git clone and load the source directory as a temporary addon via about:debugging.
+
+Use chrome://aboutaddons/content/dev.html which uses babel at runtime to transpile
+the JSX.
+
+Building
+--------
+
+```
+$ make package
+```
