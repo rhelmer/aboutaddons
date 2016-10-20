@@ -1,0 +1,15 @@
+{
+  "name": "aboutaddons",
+  "version": "1.0.0",
+  "description": "Firefox Extensions Manager --------------------------",
+  "main": "bootstrap.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "eslint": "^3.8.0",
+    "eslint-plugin-react": "^6.4.1"
+  }
+}
