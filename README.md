@@ -23,7 +23,7 @@ Hacking
 
 Git clone and load the source directory as a temporary addon via about:debugging.
 
-Use chrome://aboutaddons/content/dev.html which uses babel at runtime to transpile
+Use `chrome://aboutaddons/content/dev.html` which uses babel at runtime to transpile
 the JSX.
 
 Building
